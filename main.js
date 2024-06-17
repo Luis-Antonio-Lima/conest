@@ -1,0 +1,153 @@
+const {ipcMain} = require('electron')
+const { app, BrowserWindow, Menu, shell} = require('electron/main')
+const path = require('node:path')
+
+//importar o modulo de conexão
+const {conectar, desconectar} = require('./database.js')
+
+// janela principal (definir o objeto win como variável pública)
+let win
+const createWindow = () => {
+    win = new BrowserWindow({
+        width: 800,
+        height: 600,
+        resizable: false,
+        icon: './src/public/img/pc.png',
+        webPreferences: {
+            preload: path.join(__dirname, 'preload.js')
+        }
+    })
+
+    // Iniciar a janela com o menu personalizado
+    Menu.setApplicationMenu(Menu.buildFromTemplate(template))
+
+    win.loadFile('./src/views/index.html')
+}
+
+//janela sobre
+let about //Resolver bug de abertura de várias janelas
+
+const aboutWindow = () => {
+    // Se a janela about n estiver aberta (bug 1) abrir
+    if (!about) {
+        about = new BrowserWindow({
+            width: 360, //largura
+            height: 200, //altura
+            resizable: false, //evitar o redimensionamento
+            //titleBarStyle: 'hidden', //esconder barra de título e menu
+            autoHideMenuBar: true, //esconder o menu
+            icon: './src/public/img/pc.png'
+        })
+    }
+    // nativeTheme.themeSource = 'dark'
+    about.loadFile('./src/views/sobre.html')
+
+    // bug 2 (reabrir a janela ao se estiver fechada)
+    about.on('closed', () => {
+        about = null
+    })
+}
+
+// iniciar a aplicação
+app.whenReady().then(() => {
+
+    //status de conexão com o banco de dados
+    ipcMain.on('send-message', (event, message) => {
+        console.log(`<<< ${message}`)
+        statusConexao()
+    })
+
+    //desconectar do banco ao encerrar a janela
+    app.on('before-quit', async () => {
+        await desconectar()
+    })
+
+    createWindow()
+
+    app.on('activate', () => {
+        if (BrowserWindow.getAllWindows().length === 0) {
+            createWindow()
+        }
+    })
+})
+
+// Template do menu personalizado
+
+const template = [
+    {
+        label: 'Arquivo',
+        submenu: [
+            {
+                label: 'Sair',
+                click: () => app.quit(),
+                accelerator: 'Alt+F4'
+            }
+        ]
+    },
+    {
+        label: 'Exibir',
+        submenu: [
+            {
+                label: 'Recarregar',
+                role: 'reload',
+            },
+            {
+                label: 'Ferramentas do desenvolvedor',
+                role: 'toggleDevTools'
+            },
+            {
+                type: 'separator'
+            },
+            {
+                label: 'Aplicar zoom',
+                role: 'zoomIn'
+            },
+            {
+                label: 'Reduzir zoom',
+                role: 'zoomOut'
+            },
+            {
+                label: 'Restaurar o zoom padrão',
+                role: 'resetZoom'
+            }
+        ]
+    },
+    {
+        label: 'Ajuda',
+        submenu: [
+            {
+                label: 'Docs',
+                click: () => shell.openExternal('https://www.electronjs.org/docs/latest/'),
+                accelerator: 'Alt+F1'
+            },
+            {
+                type: 'separator'
+            },
+            {
+                label: 'Sobre',
+                click: () => aboutWindow(),
+            }
+        ]
+    },
+]
+
+app.on('window-all-closed', () => {
+    if (process.platform !== 'darwin') {
+        app.quit()
+    }
+})
+
+ipcMain.on('open-about', () => {
+    aboutWindow()
+})
+
+//==================================================================================//
+//função que verifica o status da conexão
+const statusConexao = async () => {
+    try {
+        await conectar()
+        win.webContents.send('db-status', 'Banco de dados conectado.')
+    } catch (error) {
+        win.webContents.send('db-status', `Erro de conexão ${error.message}`)
+    }
+}
