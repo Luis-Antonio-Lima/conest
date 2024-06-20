@@ -13,7 +13,10 @@ contextBridge.exposeInMainWorld('api', {
   chrome: () => process.versions.chrome,
   electron: () => process.versions.electron,
   hello: () => ipcRenderer.send('send-message', "Oi"),
-  openAbout: () => ipcRenderer.send('open-about')
+  openAbout: () => ipcRenderer.send('open-about'),
+  openClient: () => ipcRenderer.send('open-client'),
+  openForne: () => ipcRenderer.send('open-forne'),
+  openProdut: () => ipcRenderer.send('open-produt')
 })
 
 // Inserir data na página

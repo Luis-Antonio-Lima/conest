@@ -12,7 +12,7 @@ const createWindow = () => {
         width: 800,
         height: 600,
         resizable: false,
-        icon: './src/public/img/pc.png',
+        icon: './src/public/img/armazenamento.png',
         webPreferences: {
             preload: path.join(__dirname, 'preload.js')
         }
@@ -24,6 +24,80 @@ const createWindow = () => {
     win.loadFile('./src/views/index.html')
 }
 
+// janela principal (definir o objeto win como variável pública)
+//janela sobre
+let produt //Resolver bug de abertura de várias janelas
+
+const produtWindow = () => {
+    // Se a janela about n estiver aberta (bug 1) abrir
+    if (!produt) {
+        produt = new BrowserWindow({
+            width: 360, //largura
+            height: 250, //altura
+            resizable: false, //evitar o redimensionamento
+            //titleBarStyle: 'hidden', //esconder barra de título e menu
+            autoHideMenuBar: true, //esconder o menu
+            icon: './src/public/img/produto.png'
+        })
+    }
+    // nativeTheme.themeSource = 'dark'
+    produt.loadFile('./src/views/produtos.html')
+
+    // bug 2 (reabrir a janela ao se estiver fechada)
+    produt.on('closed', () => {
+        produt = null
+    })
+}
+
+// janela principal (definir o objeto win como variável pública)
+//janela sobre
+let client //Resolver bug de abertura de várias janelas
+
+const clientWindow = () => {
+    // Se a janela about n estiver aberta (bug 1) abrir
+    if (!client) {
+        client = new BrowserWindow({
+            width: 360, //largura
+            height: 250, //altura
+            resizable: false, //evitar o redimensionamento
+            //titleBarStyle: 'hidden', //esconder barra de título e menu
+            autoHideMenuBar: true, //esconder o menu
+            icon: './src/public/img/cliente.png'
+        })
+    }
+    // nativeTheme.themeSource = 'dark'
+    client.loadFile('./src/views/clientes.html')
+
+    // bug 2 (reabrir a janela ao se estiver fechada)
+    client.on('closed', () => {
+        client = null
+    })
+}
+
+//janela sobre
+let forne //Resolver bug de abertura de várias janelas
+
+const forneWindow = () => {
+    // Se a janela about n estiver aberta (bug 1) abrir
+    if (!forne) {
+        forne = new BrowserWindow({
+            width: 360, //largura
+            height: 250, //altura
+            resizable: false, //evitar o redimensionamento
+            //titleBarStyle: 'hidden', //esconder barra de título e menu
+            autoHideMenuBar: true, //esconder o menu
+            icon: './src/public/img/fornecedores.png'
+        })
+    }
+    // nativeTheme.themeSource = 'dark'
+    forne.loadFile('./src/views/fornecedores.html')
+
+    // bug 2 (reabrir a janela ao se estiver fechada)
+    forne.on('closed', () => {
+        forne = null
+    })
+}
+
 //janela sobre
 let about //Resolver bug de abertura de várias janelas
 
@@ -31,8 +105,8 @@ const aboutWindow = () => {
     // Se a janela about n estiver aberta (bug 1) abrir
     if (!about) {
         about = new BrowserWindow({
-            width: 360, //largura
-            height: 200, //altura
+            width: 460, //largura
+            height: 250, //altura
             resizable: false, //evitar o redimensionamento
             //titleBarStyle: 'hidden', //esconder barra de título e menu
             autoHideMenuBar: true, //esconder o menu
@@ -77,6 +151,21 @@ const template = [
     {
         label: 'Arquivo',
         submenu: [
+            {
+                label: 'Clientes',
+                click: () => clientWindow(),
+                accelerator: 'Alt+C'
+            },
+            {
+                label: 'Fornecedores',
+                click: () => forneWindow(),
+                accelerator: 'Alt+F'
+            },
+            {
+                label: 'Produtos',
+                click: () => produtWindow(),
+                accelerator: 'Alt+P'
+            },
             {
                 label: 'Sair',
                 click: () => app.quit(),
@@ -139,6 +228,18 @@ app.on('window-all-closed', () => {
 
 ipcMain.on('open-about', () => {
     aboutWindow()
+})
+
+ipcMain.on('open-forne', () => {
+    forneWindow()
+})
+
+ipcMain.on('open-client', () => {
+    clientWindow()
+})
+
+ipcMain.on('open-produt', () => {
+    produtWindow()
 })
 
 //==================================================================================//

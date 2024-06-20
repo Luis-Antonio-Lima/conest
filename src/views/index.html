@@ -4,10 +4,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Conest - Controle - Controle de estoque</title>
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="../public/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../public/css/style.css">
 </head>
 <body>
-    <h1>Conest</h1>
+    <div class="container">
+        <h1>Conest</h1>
+    </div>
+    <div class="container container2">
+        <ul>
+            <li>
+                <button onclick="cliente()"><img src="../public/img/cliente.png" style="width: 128px; height: 128px;"></button>
+            </li>
+        </ul>
+        <ul>
+            <li>
+                <button onclick="produto()"><img src="../public/img/produto.png" style="width: 128px; height: 128px;"></button>
+            </li>
+        </ul>
+        <ul>
+            <li>
+                <button onclick="forne()"><img src="../public/img/fornecedores.png" style="width: 128px; height: 128px;"></button>
+            </li>
+        </ul>
+    </div>
 
+    <footer>
+        <p id="dataAtual"></p>
+    </footer>
+
+    <!-- bootstrap -->
+    <script src="../public/js/bootstrap.min.js"></script>
+
+    <!-- Processo de renderização (sempre no fim) -->
     <script src="renderer.js"></script>
 </body>
 </html>

@@ -1,0 +1,24 @@
+.container2 {
+    display: flex;
+    flex-direction: row;
+}
+
+.container2 ul {
+    list-style: none;
+}
+
+.branco {
+    color: white;
+}
+
+/* Footer */
+
+footer {
+    background-color: #141414;
+    color: white;
+    position: fixed;
+    bottom: 0;
+    text-align: center;
+    width: 100%;
+    padding-top: 11px;
+}
