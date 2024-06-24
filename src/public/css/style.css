@@ -1,3 +1,23 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+/* esconder o id do cliente */
+#inputId {
+    display: none;
+}
+
+/* Inserir imagem no botão reset */
+#btnReset {
+    width: 40px;
+    height: 40px;
+    background-image: url('../img/clear.png');
+    background-size: cover;
+    border: none;
+    margin-left: 30px;
+}
+
 .container2 {
     display: flex;
     flex-direction: row;
@@ -14,11 +34,41 @@
 /* Footer */
 
 footer {
+    display: flex;
     background-color: #141414;
     color: white;
     position: fixed;
     bottom: 0;
     text-align: center;
     width: 100%;
-    padding-top: 11px;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+}
+
+footer img {
+    display: flex;
+    width: 32px;
+    height: 32px;
+    align-items: center;
+    margin-right: 10px;
+}
+
+footer p {
+    margin-left: 10px;
+    margin-top: 11px;
+}
+
+.botao {
+    background-color: white;
+}
+
+.botao button {
+    display: flex;
+    margin-left: 383px;
+    align-items: center;
+    width: 50px;
+    justify-content: center;
+    margin-bottom: 10px;
+    border-radius: 6px;
 }

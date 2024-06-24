@@ -29,19 +29,24 @@ const createWindow = () => {
 let produt //Resolver bug de abertura de várias janelas
 
 const produtWindow = () => {
-    // Se a janela about n estiver aberta (bug 1) abrir
-    if (!produt) {
-        produt = new BrowserWindow({
-            width: 360, //largura
-            height: 250, //altura
-            resizable: false, //evitar o redimensionamento
-            //titleBarStyle: 'hidden', //esconder barra de título e menu
-            autoHideMenuBar: true, //esconder o menu
-            icon: './src/public/img/produto.png'
-        })
+    const father = BrowserWindow.getFocusedWindow()
+    if (father) {
+        // Se a janela about n estiver aberta (bug 1) abrir
+        if (!produt) {
+            produt = new BrowserWindow({
+                width: 800, //largura
+                height: 600, //altura
+                resizable: false, //evitar o redimensionamento
+                //titleBarStyle: 'hidden', //esconder barra de título e menu
+                autoHideMenuBar: true, //esconder o menu
+                icon: './src/public/img/produto.png',
+                parent: father, //estabelece a relação parent-child
+                modal: true
+            })
+        }
+        produt.loadFile('./src/views/produtos.html')
     }
     // nativeTheme.themeSource = 'dark'
-    produt.loadFile('./src/views/produtos.html')
 
     // bug 2 (reabrir a janela ao se estiver fechada)
     produt.on('closed', () => {
@@ -54,16 +59,21 @@ const produtWindow = () => {
 let client //Resolver bug de abertura de várias janelas
 
 const clientWindow = () => {
-    // Se a janela about n estiver aberta (bug 1) abrir
-    if (!client) {
-        client = new BrowserWindow({
-            width: 360, //largura
-            height: 250, //altura
-            resizable: false, //evitar o redimensionamento
-            //titleBarStyle: 'hidden', //esconder barra de título e menu
-            autoHideMenuBar: true, //esconder o menu
-            icon: './src/public/img/cliente.png'
-        })
+    const father = BrowserWindow.getFocusedWindow()
+    if (father) {
+        // Se a janela about n estiver aberta (bug 1) abrir
+        if (!client) {
+            client = new BrowserWindow({
+                width: 800, //largura
+                height: 600, //altura
+                resizable: false, //evitar o redimensionamento
+                //titleBarStyle: 'hidden', //esconder barra de título e menu
+                autoHideMenuBar: true, //esconder o menu
+                icon: './src/public/img/cliente.png',
+                parent: father, //estabelece a relação parent-child
+                modal: true
+            })
+        }
     }
     // nativeTheme.themeSource = 'dark'
     client.loadFile('./src/views/clientes.html')
@@ -78,16 +88,21 @@ const clientWindow = () => {
 let forne //Resolver bug de abertura de várias janelas
 
 const forneWindow = () => {
-    // Se a janela about n estiver aberta (bug 1) abrir
-    if (!forne) {
-        forne = new BrowserWindow({
-            width: 360, //largura
-            height: 250, //altura
-            resizable: false, //evitar o redimensionamento
-            //titleBarStyle: 'hidden', //esconder barra de título e menu
-            autoHideMenuBar: true, //esconder o menu
-            icon: './src/public/img/fornecedores.png'
-        })
+    const father = BrowserWindow.getFocusedWindow()
+    if (father) {
+        // Se a janela about n estiver aberta (bug 1) abrir
+        if (!forne) {
+            forne = new BrowserWindow({
+                width: 800, //largura
+                height: 600, //altura
+                resizable: false, //evitar o redimensionamento
+                //titleBarStyle: 'hidden', //esconder barra de título e menu
+                autoHideMenuBar: true, //esconder o menu
+                icon: './src/public/img/fornecedores.png',
+                parent: father, //estabelece a relação parent-child
+                modal: true
+            })
+        }
     }
     // nativeTheme.themeSource = 'dark'
     forne.loadFile('./src/views/fornecedores.html')
@@ -102,16 +117,21 @@ const forneWindow = () => {
 let about //Resolver bug de abertura de várias janelas
 
 const aboutWindow = () => {
-    // Se a janela about n estiver aberta (bug 1) abrir
-    if (!about) {
-        about = new BrowserWindow({
-            width: 460, //largura
-            height: 250, //altura
-            resizable: false, //evitar o redimensionamento
-            //titleBarStyle: 'hidden', //esconder barra de título e menu
-            autoHideMenuBar: true, //esconder o menu
-            icon: './src/public/img/pc.png'
-        })
+    const father = BrowserWindow.getFocusedWindow()
+    if (father) {
+        // Se a janela about n estiver aberta (bug 1) abrir
+        if (!about) {
+            about = new BrowserWindow({
+                width: 460, //largura
+                height: 250, //altura
+                resizable: false, //evitar o redimensionamento
+                //titleBarStyle: 'hidden', //esconder barra de título e menu
+                autoHideMenuBar: true, //esconder o menu
+                icon: './src/public/img/pc.png',
+                parent: father,
+                modal:true
+            })
+        }
     }
     // nativeTheme.themeSource = 'dark'
     about.loadFile('./src/views/sobre.html')
