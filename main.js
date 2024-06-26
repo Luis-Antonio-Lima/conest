@@ -9,8 +9,8 @@ const {conectar, desconectar} = require('./database.js')
 let win
 const createWindow = () => {
     win = new BrowserWindow({
-        width: 800,
-        height: 600,
+        width: 1280,
+        height: 720,
         resizable: false,
         icon: './src/public/img/armazenamento.png',
         webPreferences: {
@@ -34,8 +34,8 @@ const produtWindow = () => {
         // Se a janela about n estiver aberta (bug 1) abrir
         if (!produt) {
             produt = new BrowserWindow({
-                width: 800, //largura
-                height: 600, //altura
+                width: 1280, //largura
+                height: 720, //altura
                 resizable: false, //evitar o redimensionamento
                 //titleBarStyle: 'hidden', //esconder barra de título e menu
                 autoHideMenuBar: true, //esconder o menu
@@ -64,8 +64,8 @@ const clientWindow = () => {
         // Se a janela about n estiver aberta (bug 1) abrir
         if (!client) {
             client = new BrowserWindow({
-                width: 800, //largura
-                height: 600, //altura
+                width: 1280, //largura
+                height: 720, //altura
                 resizable: false, //evitar o redimensionamento
                 //titleBarStyle: 'hidden', //esconder barra de título e menu
                 autoHideMenuBar: true, //esconder o menu
@@ -93,8 +93,8 @@ const forneWindow = () => {
         // Se a janela about n estiver aberta (bug 1) abrir
         if (!forne) {
             forne = new BrowserWindow({
-                width: 800, //largura
-                height: 600, //altura
+                width: 1280, //largura
+                height: 720, //altura
                 resizable: false, //evitar o redimensionamento
                 //titleBarStyle: 'hidden', //esconder barra de título e menu
                 autoHideMenuBar: true, //esconder o menu

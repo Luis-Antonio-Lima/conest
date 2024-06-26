@@ -18,6 +18,10 @@
     margin-left: 30px;
 }
 
+body {
+    background-color: #d4d4d4;
+}
+
 .container2 {
     display: flex;
     flex-direction: row;
@@ -28,7 +32,27 @@
 }
 
 .branco {
-    color: white;
+    color: #d4d4d4;
+}
+
+#resLogradouro {
+    background-color: white;
+}
+
+#resBairro {
+    background-color: white;
+}
+
+#resLocalidade {
+    background-color: white;
+}
+
+#resUF {
+    background-color: white;
+}
+
+#resDDD {
+    background-color: white;
 }
 
 /* Footer */
@@ -36,7 +60,7 @@
 footer {
     display: flex;
     background-color: #141414;
-    color: white;
+    color: #d4d4d4;
     position: fixed;
     bottom: 0;
     text-align: center;
@@ -60,7 +84,7 @@ footer p {
 }
 
 .botao {
-    background-color: white;
+    background-color: #d4d4d4;
 }
 
 .botao button {
@@ -71,4 +95,24 @@ footer p {
     justify-content: center;
     margin-bottom: 10px;
     border-radius: 6px;
+}
+
+#btnBuscar {
+    margin-top: 33px;
+}
+
+#btnCreate {
+    margin-top: -25px;
+}
+
+#btnUpdate {
+    margin-top: -25px;
+}
+
+#btnDelete {
+    margin-top: -25px;
+}
+
+#btnReset {
+    margin-top: -25px;
 }

@@ -4,17 +4,118 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- evitar ataques de Cross Site Scripting (injeção de dados)-->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'">
+    <!--
+        <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'">
+    -->
     <!-- bootstrap -->
     <link rel="stylesheet" href="../public/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../public/css/style.css">
     
     <!--O electron usa o título na janela-->
     <title>Fornecedores</title>
 </head>
 <body>
-    <h1>Fornecedores</h1>
+    <br>
+    <div class="container">
+        <form name="frmFornecedor" class="row g-3" id="Fornecedor">
+            <!-- Caixa de input  -->
+            <div class="col-md-6">
+                <input type="text" class="form-control" id="inputSearch" maxlength="30" spellcheck="false">
+            </div>
+
+            <!-- Botão de pesquisa de cliente CRUD Read -->
+            <div class="col-md-4">
+                <button type="button" class="btn btn-dark">Buscar</button>
+            </div>
+
+            <hr class="border border-primary border-1 opacity-75">
+
+            <!-- id MongoDB -->
+            <div class="col-md-12">
+                <input type="text" class="form-control" id="inputId" placeholder="id">
+                <br>
+            </div>
+
+            <!-- Razão Social do fornecedor -->
+            <div class="col-md-8">
+                <label for="inputRazaoSocial" class="form-label">Razão Social</label>
+                <input type="text" class="form-control" id="inputRazaoSocial">
+            </div>
+
+            <!-- CNPJ do fornecedor -->
+            <div class="col-md-4">
+                <label for="inputCNPJ" class="form-label">CNPJ do Fornecedor</label>
+                <input type="number" class="form-control" id="inputCNPJ" required>
+            </div>
+
+            <!-- Telefone do fornecedor -->
+            <div class="col-md-4">
+                <label for="inputPhone" class="form-label">Telefone</label>
+                <input type="tel" class="form-control" id="inputPhone" required maxlength="15" name="resDDD" spellcheck="false">
+            </div>
+
+            <!-- Email do fornecedor -->
+            <div class="col-8">
+                <label for="inputAddress" class="form-label">Email</label>
+                <input type="email" class="form-control" id="inputAddress" maxlength="30" spellcheck="false">
+                <br>
+            </div>
+            
+            <!-- Endereço do fornecedor -->
+            <div class="col-md-2">
+                <label for="inputEndereco" class="form-label">Endereço</label>
+                <input type="text" class="form-control" id="inputEndereco" name="txtCEP" required maxlength="9" placeholder="Digite aqui o CEP">
+            </div>
+
+            <!-- Botao -->
+            <div class="col-md-10">
+                <button  onclick="buscarcep()" type="button" class="btn btn-dark" id="btnBuscar" name="btnBuscar">Buscar</button>
+            </div>
+
+            <div class="col-md-2">
+                <label for="inputNumeroEndereco" class="form-label">Número do Endereço</label>
+                <input type="text" class="form-control" id="inputNumeroEndereco" required placeholder="Número">
+            </div>
+
+            <div class="col-md-7">
+                <label for="inputComplementoEndereco" class="form-label">Complemento</label>
+                <input type="text" class="form-control" id="inputComplementoEndereco" required placeholder="Complemento">
+            </div>
+
+            <!-- Resultado -->
+            <div class="col-md-3">
+                <label for="resLogradouro" class="form-label">Nome da rua</label>
+                <input type="text" class="form-control" id="resLogradouro" name="resLogradouro" disabled>
+            </div>
+
+            <div class="col-md-4">
+                <label for="resBairro" class="form-label">Bairro</label>
+                <input type="text" class="form-control" id="resBairro" name="resBairro" disabled>
+            </div>
+
+            <div class="col-md-4">
+                <label for="resLocalidade" class="form-label">Cidade</label>
+                <input type="text" class="form-control" id="resLocalidade" name="resLocalidade" disabled>
+            </div>
+
+            <div class="col-md-4">
+                <label for="inputUF" class="form-label">Estado</label>
+                <input type="text" class="form-control" id="resUF" name="resUF" disabled>
+                <br>
+            </div>
+
+            <!-- Botões -->
+            <div class="col-12">
+                <button type="submit" class="btn btn-success" id="btnCreate">Adicionar</button>
+                <button type="button" class="btn btn-warning" id="btnUpdate">Editar</button>
+                <button type="button" class="btn btn-danger" id="btnDelete">Excluir</button>
+                <button type="reset" class="btn" id="btnReset"></button>
+            </div>
+        </form>
+    </div>
 
     <!-- bootstrap -->
     <script src="../public/js/bootstrap.min.js"></script>
+    <script src="./script.js"></script>
 </body>
 </html>
