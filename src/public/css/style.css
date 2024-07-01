@@ -55,6 +55,14 @@ body {
     background-color: white;
 }
 
+#imageProduct {
+    border: 3px solid white;
+    border-radius: 5px;
+    padding: 4px;
+    position: fixed;
+    right: 130px;
+}
+
 /* Footer */
 
 footer {

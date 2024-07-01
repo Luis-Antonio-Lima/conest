@@ -17,7 +17,7 @@
 <body>
     <br>
     <div class="container">
-        <form name="frmFornecedor" class="row g-3" id="Fornecedor">
+        <form name="frmFornecedor" class="row g-3" id="frmFornecedor">
             <!-- Caixa de input  -->
             <div class="col-md-6">
                 <input type="text" class="form-control" id="inputSearch" maxlength="30" spellcheck="false">
@@ -39,7 +39,7 @@
             <!-- Razão Social do fornecedor -->
             <div class="col-md-8">
                 <label for="inputRazaoSocial" class="form-label">Razão Social</label>
-                <input type="text" class="form-control" id="inputRazaoSocial">
+                <input type="text" class="form-control" id="inputRazaoSocial" required>
             </div>
 
             <!-- CNPJ do fornecedor -->
@@ -57,7 +57,7 @@
             <!-- Email do fornecedor -->
             <div class="col-8">
                 <label for="inputAddress" class="form-label">Email</label>
-                <input type="email" class="form-control" id="inputAddress" maxlength="30" spellcheck="false">
+                <input type="email" class="form-control" id="inputAddress" maxlength="30" spellcheck="false" required>
                 <br>
             </div>
             
@@ -72,38 +72,36 @@
                 <button  onclick="buscarcep()" type="button" class="btn btn-dark" id="btnBuscar" name="btnBuscar">Buscar</button>
             </div>
 
-            <div class="col-md-2">
-                <label for="inputNumeroEndereco" class="form-label">Número do Endereço</label>
-                <input type="text" class="form-control" id="inputNumeroEndereco" required>
-            </div>
-
-            <div class="col-md-5">
-                <label for="inputComplementoEndereco" class="form-label">Complemento</label>
-                <input type="text" class="form-control" id="inputComplementoEndereco" required>
-            </div>
-
-            <!-- Resultado -->
-
-            <div class="col-md-2">
-                <label for="resLocalidade" class="form-label">Cidade</label>
-                <input type="text" class="form-control" id="resLocalidade" name="resLocalidade" disabled>
-            </div>
-
-
             <div class="col-md-5">
                 <label for="resLogradouro" class="form-label">Nome da rua</label>
                 <input type="text" class="form-control" id="resLogradouro" name="resLogradouro" disabled>
             </div>
 
-            <div class="col-md-1">
-                <label for="inputUF" class="form-label">Estado</label>
-                <input type="text" class="form-control" id="resUF" name="resUF" disabled>
+            <div class="col-md-2">
+                <label for="inputNumeroEndereco" class="form-label">Número do Endereço</label>
+                <input type="text" class="form-control" id="inputNumeroEndereco" required>
             </div>
 
             <div class="col-md-3">
+                <label for="inputComplementoEndereco" class="form-label">Complemento</label>
+                <input type="text" class="form-control" id="inputComplementoEndereco" required>
+            </div>
+
+            <div class="col-md-5">
                 <label for="resBairro" class="form-label">Bairro</label>
                 <input type="text" class="form-control" id="resBairro" name="resBairro" disabled>
                 <br>
+            </div>
+
+            <div class="col-md-4">
+                <label for="resLocalidade" class="form-label">Cidade</label>
+                <input type="text" class="form-control" id="resLocalidade" name="resLocalidade" disabled>
+            </div>
+
+
+            <div class="col-md-1">
+                <label for="inputUF" class="form-label">Estado</label>
+                <input type="text" class="form-control" id="resUF" name="resUF" disabled>
             </div>
 
             <!-- Botões -->

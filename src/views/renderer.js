@@ -14,3 +14,7 @@ function forne() {
 function produto() {
     api.openProdut()
 }
+
+function relatorio() {
+    api.openRelatorio()
+}

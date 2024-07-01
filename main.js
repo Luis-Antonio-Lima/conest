@@ -84,7 +84,7 @@ const clientWindow = () => {
     })
 }
 
-//janela sobre
+//janela fornecedor
 let forne //Resolver bug de abertura de várias janelas
 
 const forneWindow = () => {
@@ -110,6 +110,35 @@ const forneWindow = () => {
     // bug 2 (reabrir a janela ao se estiver fechada)
     forne.on('closed', () => {
         forne = null
+    })
+}
+
+// janela relatorio
+let rela //Resolver bug de abertura de várias janelas
+
+const relatorioWindow = () => {
+    const father = BrowserWindow.getFocusedWindow()
+    if (father) {
+        // Se a janela about n estiver aberta (bug 1) abrir
+        if (!rela) {
+            rela = new BrowserWindow({
+                width: 1280, //largura
+                height: 720, //altura
+                resizable: false, //evitar o redimensionamento
+                //titleBarStyle: 'hidden', //esconder barra de título e menu
+                autoHideMenuBar: true, //esconder o menu
+                icon: './src/public/img/relatorio.png',
+                parent: father, //estabelece a relação parent-child
+                modal: true
+            })
+        }
+    }
+    // nativeTheme.themeSource = 'dark'
+    rela.loadFile('./src/views/relatorios.html')
+
+    // bug 2 (reabrir a janela ao se estiver fechada)
+    rela.on('closed', () => {
+        rela = null
     })
 }
 
@@ -222,6 +251,9 @@ const template = [
         ]
     },
     {
+        label: 'Relatórios',
+    },
+    {
         label: 'Ajuda',
         submenu: [
             {
@@ -260,6 +292,10 @@ ipcMain.on('open-client', () => {
 
 ipcMain.on('open-produt', () => {
     produtWindow()
+})
+
+ipcMain.on('open-relatorio', () => {
+    relatorioWindow()
 })
 
 //==================================================================================//
