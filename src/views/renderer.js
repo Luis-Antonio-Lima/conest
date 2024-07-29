@@ -1,3 +1,5 @@
+const { ipcRenderer } = require("electron")
+
 // Função que é executada quando o botão for clicado
 function sobre() {
     api.openAbout()

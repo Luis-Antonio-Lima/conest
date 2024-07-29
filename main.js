@@ -308,3 +308,4 @@ const statusConexao = async () => {
         win.webContents.send('db-status', `Erro de conexão ${error.message}`)
     }
 }
+

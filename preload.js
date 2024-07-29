@@ -6,6 +6,11 @@ ipcRenderer.send('send-message', 'Status do banco de dados:')
 
 ipcRenderer.on('db-status', (event, status) => {
     console.log(status)
+    if (status === 'Banco de dados conectado.') {
+        document.getElementById('statusBanco').src = '../public/img/dbon.png'
+    } else {
+        document.getElementById('statusBanco').src = '../public/img/dboff.png'
+    }
 })
 
 contextBridge.exposeInMainWorld('api', {
@@ -17,7 +22,7 @@ contextBridge.exposeInMainWorld('api', {
   openClient: () => ipcRenderer.send('open-client'),
   openForne: () => ipcRenderer.send('open-forne'),
   openProdut: () => ipcRenderer.send('open-produt'),
-  openRelatorio: () => ipcRenderer.send('open-relatorio')
+  openRelatorio: () => ipcRenderer.send('open-relatorio'),
 })
 
 // Inserir data na página
