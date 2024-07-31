@@ -5,6 +5,9 @@ const path = require('node:path')
 //importar o modulo de conexão
 const {conectar, desconectar} = require('./database.js')
 
+//importar do Schema (model) das coleções("tabelas")
+const clienteModel = require('./src/models/Cliente.js')
+
 // janela principal (definir o objeto win como variável pública)
 let win
 const createWindow = () => {
@@ -14,7 +17,7 @@ const createWindow = () => {
         resizable: false,
         icon: './src/public/img/armazenamento.png',
         webPreferences: {
-            preload: path.join(__dirname, 'preload.js')
+            preload: path.join(__dirname, 'preload.js') //importante para ter acesso do preload.js
         }
     })
 
@@ -41,7 +44,10 @@ const produtWindow = () => {
                 autoHideMenuBar: true, //esconder o menu
                 icon: './src/public/img/produto.png',
                 parent: father, //estabelece a relação parent-child
-                modal: true
+                modal: true,
+                webPreferences: {
+                    preload: path.join(__dirname, 'preload.js') //importante para ter acesso do preload.js
+                }
             })
         }
         produt.loadFile('./src/views/produtos.html')
@@ -71,7 +77,10 @@ const clientWindow = () => {
                 autoHideMenuBar: true, //esconder o menu
                 icon: './src/public/img/cliente.png',
                 parent: father, //estabelece a relação parent-child
-                modal: true
+                modal: true,
+                webPreferences: {
+                    preload: path.join(__dirname, 'preload.js') //importante para ter acesso do preload.js
+                }
             })
         }
     }
@@ -100,7 +109,10 @@ const forneWindow = () => {
                 autoHideMenuBar: true, //esconder o menu
                 icon: './src/public/img/fornecedores.png',
                 parent: father, //estabelece a relação parent-child
-                modal: true
+                modal: true,
+                webPreferences: {
+                    preload: path.join(__dirname, 'preload.js') //importante para ter acesso do preload.js
+                }
             })
         }
     }
@@ -129,7 +141,10 @@ const relatorioWindow = () => {
                 autoHideMenuBar: true, //esconder o menu
                 icon: './src/public/img/relatorio.png',
                 parent: father, //estabelece a relação parent-child
-                modal: true
+                modal: true,
+                webPreferences: {
+                    preload: path.join(__dirname, 'preload.js') //importante para ter acesso do preload.js
+                }
             })
         }
     }
@@ -158,7 +173,10 @@ const aboutWindow = () => {
                 autoHideMenuBar: true, //esconder o menu
                 icon: './src/public/img/pc.png',
                 parent: father,
-                modal:true
+                modal:true,
+                webPreferences: {
+                    preload: path.join(__dirname, 'preload.js') //importante para ter acesso do preload.js
+                }
             })
         }
     }
@@ -309,3 +327,34 @@ const statusConexao = async () => {
     }
 }
 
+
+
+//CRUD Create >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+ipcMain.on('new-cliente', async (event, cliente) => {
+    console.log(cliente) //Teste do passo 2 - slide
+    // Passo 3 (slide): cadastrar o cliente no MongoDB
+    try {
+        //extrair os dados do objeto
+        const novoCliente = new clienteModel({
+            nomeCliente: cliente.nomeCli,
+            foneCliente: cliente.foneCli,
+            emailCliente: cliente.emailCli
+        })
+        await novoCliente.save() //save() - moongoose
+    } catch (error) {
+        console.log(error)
+    }
+})
+//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+
+//CRUD Read >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+
+//CRUD Update >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+
+//CRUD Delete >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<

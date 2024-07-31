@@ -23,6 +23,7 @@ contextBridge.exposeInMainWorld('api', {
   openForne: () => ipcRenderer.send('open-forne'),
   openProdut: () => ipcRenderer.send('open-produt'),
   openRelatorio: () => ipcRenderer.send('open-relatorio'),
+  newCliente: (cliente) => ipcRenderer.send('new-cliente', cliente)
 })
 
 // Inserir data na página
