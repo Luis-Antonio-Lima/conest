@@ -1,12 +1,16 @@
-const {ipcMain} = require('electron')
+const {ipcMain, dialog} = require('electron')
 const { app, BrowserWindow, Menu, shell} = require('electron/main')
 const path = require('node:path')
 
 //importar o modulo de conexão
-const {conectar, desconectar} = require('./database.js')
+const {dbStatus, desconectar} = require('./database.js')
 
 //importar do Schema (model) das coleções("tabelas")
 const clienteModel = require('./src/models/Cliente.js')
+const fornecedorModel = require('./src/models/Fornecedor.js')
+const { default: mongoose } = require('mongoose')
+
+let dbCon = null
 
 // janela principal (definir o objeto win como variável pública)
 let win
@@ -194,7 +198,7 @@ app.whenReady().then(() => {
 
     //status de conexão com o banco de dados
     ipcMain.on('send-message', (event, message) => {
-        console.log(`<<< ${message}`)
+        //console.log(`<<< ${message}`)
         statusConexao()
     })
 
@@ -320,15 +324,14 @@ ipcMain.on('open-relatorio', () => {
 //função que verifica o status da conexão
 const statusConexao = async () => {
     try {
-        await conectar()
+        await dbStatus()
         win.webContents.send('db-status', 'Banco de dados conectado.')
     } catch (error) {
         win.webContents.send('db-status', `Erro de conexão ${error.message}`)
     }
 }
 
-
-
+//Clientes
 //CRUD Create >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 ipcMain.on('new-cliente', async (event, cliente) => {
     console.log(cliente) //Teste do passo 2 - slide
@@ -341,6 +344,57 @@ ipcMain.on('new-cliente', async (event, cliente) => {
             emailCliente: cliente.emailCli
         })
         await novoCliente.save() //save() - moongoose
+        dialog.showMessageBox({
+            type: 'info',
+            title: 'Aviso',
+            message: 'Cliente cadastrado com sucesso',
+            buttons: ['Ok']
+        })
+    } catch (error) {
+        console.log(error)
+    }
+})
+//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+
+//CRUD Read >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+
+//CRUD Update >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+
+//CRUD Delete >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+//Fornecedor
+//CRUD Create >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+ipcMain.on('new-fornecedor', async (event, fornecedor) => {
+    console.log(fornecedor) //Teste do passo 2 - slide
+    // Passo 3 (slide): cadastrar o cliente no MongoDB
+    try {
+        //extrair os dados do objeto
+        const novoFornecedor = new fornecedorModel({
+            razaoFornecedor: fornecedor.razaoForne,
+            cnpjFornecedor: fornecedor.cnpjForne,
+            foneFornecedor: fornecedor.foneForne,
+            emailFornecedor: fornecedor.emailForne,
+            cepFornecedor: fornecedor.cepForne,
+            ruaFornecedor: fornecedor.ruaForne,
+            enderecoFornecedor: fornecedor.enderecoForne,
+            complementoFornecedor: fornecedor.complementoForne,
+            bairroFornecedor: fornecedor.bairroForne,
+            cidadeFornecedor: fornecedor.cidadeForne,
+            estadoFornecedor: fornecedor.estadoForne
+        })
+        await novoFornecedor.save() //save() - moongoose
+        dialog.showMessageBox({
+            type: 'info',
+            title: 'Aviso',
+            message: 'Fornecedor cadastrado com sucesso',
+            buttons: ['Ok']
+        })
     } catch (error) {
         console.log(error)
     }
