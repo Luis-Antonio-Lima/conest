@@ -3,6 +3,24 @@
  * Clientes
  */
 
+//Mudar propiedades do documento ao iniciar (UX)
+document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('inputSearch').focus()
+    btnCreate.disabled = true
+    btnUpdate.disabled = true
+    btnDelete.disabled = true
+    //btnReset.disabled = true
+})
+
+//Alterar comportamento do Enter dentro do formulário (relacionar ao botão de busca) - (UX)
+document.getElementById('frmCliente').addEventListener('keydown', (event) => {
+    if (event.key === 'Enter') {
+        event.preventDefault()
+        //executar a função associada ao botão buscar
+        buscarCliente()
+    }
+})
+
 //CRUD Create >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 //captura dos inputs do formulário (passo 1 - slide)
 let formCliente = document.getElementById('frmCliente')
@@ -27,7 +45,41 @@ formCliente.addEventListener('submit', async(event) => {
 
 
 //CRUD Read >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+//array (vetor) usado na renderização dos dados do cliente
+let arrayCliente = []
+// Função que vai enviar ao main um pedido de busca dos dados do cliente pelo nome (Passo 1 - slide)
+function buscarCliente() {
+    let nomeCliente = document.getElementById('inputSearch').value.trim().replace(/\s+/g, ' ')
+    //validação (UX)
+    if (nomeCliente === "") {
+        //validar campo obrigatório
+        api.infoSearchDialog()
+    } else {
+        //enviar o pedido de busca junto com o nome do cliente
+        api.searchClient(nomeCliente)
 
+    }
+    //Foco no campo de busca (UX)
+    api.focusSearch((args) => {
+        document.getElementById('inputSearch').focus()
+    })
+    // Setar o nome do cliente e habilitar o cadastramento
+    api.nameClient((args) => {
+        let setarNomeCliente = document.getElementById('inputSearch').value.trim().replace(/\s+/g, ' ')
+        document.getElementById('inputName').value = setarNomeCliente
+        document.getElementById('inputSearch').value = ""
+        document.getElementById('inputSearch').blur()
+        document.getElementById('inputSearch').disabled = true
+        document.getElementById('inputName').focus()
+        btnRead.disabled = true
+        btnCreate.disabled = false
+    })
+    //Limpar a caixa de busca e setar o foco
+    api.clearSearch((args) => {
+        document.getElementById('inputSearch').value
+        document.getElementById('inputSearch').focus()
+    })
+}
 //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 
@@ -39,3 +91,16 @@ formCliente.addEventListener('submit', async(event) => {
 //CRUD Delete >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+
+//Reset
+
+function resetForm () {
+    document.getElementById('inputSearch').disabled = false
+    document.getElementById('inputSearch').focus()
+    btnCreate.disabled = true
+    btnUpdate.disabled = true
+    btnDelete.disabled = true
+    btnRead.disabled = false
+    //btnReset.disabled = true
+}

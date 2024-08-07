@@ -24,7 +24,12 @@ contextBridge.exposeInMainWorld('api', {
   openProdut: () => ipcRenderer.send('open-produt'),
   openRelatorio: () => ipcRenderer.send('open-relatorio'),
   newCliente: (cliente) => ipcRenderer.send('new-cliente', cliente),
-  newFornecedor: (fornecedor) => ipcRenderer.send('new-fornecedor', fornecedor)
+  newFornecedor: (fornecedor) => ipcRenderer.send('new-fornecedor', fornecedor),
+  infoSearchDialog: () => ipcRenderer.send('dialog-infoSearchDialog'),
+  focusSearch: (args) => ipcRenderer.on('focus-search', args),
+  searchClient: (nomeCliente) => ipcRenderer.send ('search-client', nomeCliente),
+  nameClient: (args) => ipcRenderer.on('name-client', args),
+  clearSearch: (args) => ipcRenderer.on('clear-search', args)
 })
 
 // Inserir data na página
