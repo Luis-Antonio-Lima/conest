@@ -3,6 +3,35 @@
  * Fornecedores
  */
 
+document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('inputSearch').focus()
+    btnCreate.disabled = true
+    btnUpdate.disabled = true
+    btnDelete.disabled = true
+    //btnReset.disabled = true
+})
+
+//Função para manipular o evento enter - (UX)
+function teclaEnter(event) {
+    if (event.key === 'Enter') {
+        event.preventDefault()
+        //executar a função associada ao botão buscar
+        buscarFornecedor()
+    }
+}
+
+// Adicionar a função de manipulação do evento da tecla Enter
+document.getElementById('frmFornecedor').addEventListener('keydown', teclaEnter)
+
+// Função para remover manipulador de eventos da tecla enter
+function removerTeclaEnter() {
+    document.getElementById('frmFornecedor').removeEventListener('keydown', teclaEnter)
+}
+
+function adicionarTeclaEnter() {
+    document.getElementById('frmFornecedor').addEventListener('keydown', teclaEnter)
+}
+
 //CRUD Create >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 //captura dos inputs do formulário (passo 1 - slide)
 let formFornecedor = document.getElementById('frmFornecedor')
@@ -47,7 +76,61 @@ formFornecedor.addEventListener('submit', async(event) => {
 
 
 //CRUD Read >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+let arrayFornecedor = []
+// Função que vai enviar ao main um pedido de busca dos dados do fornecedor pelo nome (Passo 1 - slide)
+function buscarFornecedor() {
+    let razaoFornecedor = document.getElementById('inputSearch').value.trim().replace(/\s+/g, ' ')
+    //validação (UX)
+    if (razaoFornecedor === "") {
+        //validar campo obrigatório
+        api.infoSearchDialog()
+    } else {
+        //enviar o pedido de busca junto com a razao do fornecedor
+        api.searchForne(razaoFornecedor)
 
+    }
+    //Foco no campo de busca (UX)
+    api.focusSearch((args) => {
+        document.getElementById('inputSearch').focus()
+    })
+    // Setar o nome do cliente e habilitar o cadastramento
+    api.nameForne((args) => {
+
+        //Restaurar o comportamento padrão da tecla Enter
+        removerTeclaEnter()
+        let setarRazaoFornecedor = document.getElementById('inputSearch').value.trim().replace(/\s+/g, ' ')
+        document.getElementById('inputRazaoSocial').value += setarRazaoFornecedor
+        document.getElementById('inputSearch').value = ""
+        document.getElementById('inputSearch').blur()
+        document.getElementById('inputSearch').disabled = true
+        document.getElementById('inputRazaoSocial').focus()
+        btnRead.disabled = true
+        btnCreate.disabled = false
+    })
+    //Limpar a caixa de busca e setar o foco
+    api.clearSearch((args) => {
+        document.getElementById('inputSearch').value
+        document.getElementById('inputSearch').focus()
+    })
+    // receber do main.js os dados do cliente (passo 4)
+    api.dataForne((event, dadosForne) => {
+        arrayFornecedor = JSON.parse(dadosForne)
+        console.log(arrayFornecedor)
+    
+    //Passo 5 (final) percorre o array, extrair os dados e setar os campos de texto (caixas input) do formulário
+        arrayFornecedor.forEach((f) => {
+            document.getElementById('inputId').value = f._id,
+            document.getElementById('inputRazaoSocial').value = f.razaoFornecedor,
+            document.getElementById('inputPhone').value = f.foneFornecedor,
+            document.getElementById('inputAddress').value = f.emailFornecedor
+            // limpar a caixa de busca (UX)
+            document.getElementById('inputSearch').value = ""
+            // ativar os botões update e delete
+            document.getElementById('btnUpdate').disabled = false
+            document.getElementById('btnDelete').disabled = false
+        })
+    })
+}
 //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 

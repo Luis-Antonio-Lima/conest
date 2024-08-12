@@ -29,7 +29,11 @@ contextBridge.exposeInMainWorld('api', {
   focusSearch: (args) => ipcRenderer.on('focus-search', args),
   searchClient: (nomeCliente) => ipcRenderer.send ('search-client', nomeCliente),
   nameClient: (args) => ipcRenderer.on('name-client', args),
-  clearSearch: (args) => ipcRenderer.on('clear-search', args)
+  clearSearch: (args) => ipcRenderer.on('clear-search', args),
+  dataCliente: (dadosCliente) => ipcRenderer.on('data-client', dadosCliente),
+  nameForne: (args) => ipcRenderer.on('nome-forne', args),
+  searchForne: (razaoForne) => ipcRenderer.send('search-forne', razaoForne),
+  dataForne: (dadosForne) => ipcRenderer.on('data-forne', dadosForne)
 })
 
 // Inserir data na página

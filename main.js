@@ -107,7 +107,7 @@ const forneWindow = () => {
         if (!forne) {
             forne = new BrowserWindow({
                 width: 1280, //largura
-                height: 720, //altura
+                height: 750, //altura
                 resizable: false, //evitar o redimensionamento
                 //titleBarStyle: 'hidden', //esconder barra de título e menu
                 autoHideMenuBar: true, //esconder o menu
@@ -358,6 +358,48 @@ ipcMain.on('new-cliente', async (event, cliente) => {
 
 
 //CRUD Read >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+ipcMain.on('dialog-infoSearchDialog', (event) => {
+    dialog.showMessageBox({
+        type: 'warning',
+        title: 'Atenção!',
+        message: 'Pesquise o cliente no campo de busca',
+        buttons: ['Ok']
+    })
+    event.reply('focus-search')
+})
+//Recebimento do pedido de busca de um cliente pelo nome (Passo 1)
+ipcMain.on('search-client', async (event, nomeCliente) => {
+    console.log(nomeCliente)
+    //Passo 2: Busca no banco de dados
+    try {
+        //find() "método de busca newRegex 'i' case insensitive
+        const dadosCliente = await clienteModel.find({nomeCliente: new RegExp(nomeCliente, 'i')}) //Passo 2
+        console.log(dadosCliente) //Passo 3 (recebimento dos dados do cliente)
+        // UX -> se o cliente não esytiver cadastrado, avisar o usuário e habilitar o cadastramento
+        if(dadosCliente.length === 0) {
+            dialog.showMessageBox({
+                type: 'warning',
+                title: 'Atenção!',
+                message: 'Cliente não cadastrado. \nDeseja cadastrar este cliente?',
+                buttons: ['Sim','Não'],
+                defaultId: 0
+            }).then((result) => {
+                if (result.response === 0) {
+                    //setar o nome do cliente no form e habilitar o cadastramento
+                    event.reply('name-client')
+                } else {
+                    //limpar a caixa de buscar
+                    event.reply('clear-search')
+                }
+            })
+        } else {
+            //Passo 4 (enviar os dados do cliente ao renderizador)
+            event.reply('data-client', JSON.stringify(dadosCliente))
+        }
+    } catch (error) {
+        console.log(error)
+    }
+})
 //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 
@@ -407,31 +449,31 @@ ipcMain.on('dialog-infoSearchDialog', (event) => {
     dialog.showMessageBox({
         type: 'warning',
         title: 'Atenção!',
-        message: 'Preencha o nome do cliente',
+        message: 'Pesquise o fornecedor no campo de busca',
         buttons: ['Ok']
     })
     event.reply('focus-search')
 })
 //Recebimento do pedido de busca de um cliente pelo nome (Passo 1)
-ipcMain.on('search-client', async (event, nomeCliente) => {
-    console.log(nomeCliente)
+ipcMain.on('search-forne', async (event, razaoFornecedor) => {
+    console.log(razaoFornecedor)
     //Passo 2: Busca no banco de dados
     try {
         //find() "método de busca newRegex 'i' case insensitive
-        const dadosCliente = await clienteModel.find({nomeCliente: new RegExp(nomeCliente, 'i')}) //Passo 2
-        console.log(dadosCliente) //Passo 3 (recebimento dos dados do cliente)
+        const dadosForne = await fornecedorModel.find({razaoFornecedor: new RegExp(razaoFornecedor, 'i')}) //Passo 2
+        console.log(dadosForne) //Passo 3 (recebimento dos dados do cliente)
         // UX -> se o cliente não esytiver cadastrado, avisar o usuário e habilitar o cadastramento
-        if(dadosCliente.length === 0) {
+        if(dadosForne.length === 0) {
             dialog.showMessageBox({
                 type: 'warning',
                 title: 'Atenção!',
-                message: 'Cliente não cadastrado. \nDeseja cadastrar este cliente?',
+                message: 'Fornecedor não cadastrado. \nDeseja cadastrar este fornecedor?',
                 buttons: ['Sim','Não'],
                 defaultId: 0
             }).then((result) => {
                 if (result.response === 0) {
                     //setar o nome do cliente no form e habilitar o cadastramento
-                    event.reply('name-client')
+                    event.reply('nome-forne')
                 } else {
                     //limpar a caixa de buscar
                     event.reply('clear-search')
@@ -439,6 +481,7 @@ ipcMain.on('search-client', async (event, nomeCliente) => {
             })
         } else {
             //Passo 4 (enviar os dados do cliente ao renderizador)
+            event.reply('data-forne', JSON.stringify(dadosForne))
         }
     } catch (error) {
         console.log(error)
