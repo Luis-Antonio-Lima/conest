@@ -358,7 +358,7 @@ ipcMain.on('new-cliente', async (event, cliente) => {
 
 
 //CRUD Read >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-ipcMain.on('dialog-infoSearchDialog', (event) => {
+ipcMain.on('dialog-infoSearchClienteDialog', (event) => {
     dialog.showMessageBox({
         type: 'warning',
         title: 'Atenção!',
@@ -404,11 +404,67 @@ ipcMain.on('search-client', async (event, nomeCliente) => {
 
 
 //CRUD Update >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+ipcMain.on('update-cliente', async (event, cliente) => {
+    console.log(cliente) //Teste do passo 2 - slide
+    // Passo 3 (slide): cadastrar o cliente no MongoDB
+    try {
+        //extrair os dados do objeto
+        const clienteEditado = await clienteModel.findByIdAndUpdate(
+            cliente.idCli, {
+            nomeCliente: cliente.nomeCli,
+            foneCliente: cliente.foneCli,
+            emailCliente: cliente.emailCli
+        },
+            {
+                new: true
+            }
+        )
+        dialog.showMessageBox({
+            type: 'info',
+            title: 'Aviso',
+            message: 'Dados do cliente alterado com sucesso',
+            buttons: ['Ok']
+        })
+    } catch (error) {
+        console.log(error)
+    }
+})
 //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 
 //CRUD Delete >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+ipcMain.on('delete-cliente', (event, idCli) => {
+    console.log(idCli) // teste do passo 2
+    //Importante! Confirmar a ação antes de excluir do banco
+    dialog.showMessageBox({
+        type: 'error',
+        title: 'ATENÇÃO!',
+        message: 'Tem certeza que deseja excluir este cliente?',
+        defaultId: 0,
+        buttons: ['Sim', 'Não']
+    }).then (async(result) => {
+        if (result.response === 0) {
+            // Passo 3 (excluir o cliente do banco)
+            try {                
+                await clienteModel.findByIdAndDelete(idCli)
+                event.reply('clear-all-cliente')
+                dialog.showMessageBox({
+                    type: 'info',
+                    title: 'Aviso',
+                    message: 'Dados do cliente apagado com sucesso',
+                    buttons: ['Ok']
+                })
+            } catch (error) {
+                console.log(error)
+            }
+        }
+    })
+})
 //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+
+
+
 
 //Fornecedor
 //CRUD Create >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -445,7 +501,7 @@ ipcMain.on('new-fornecedor', async (event, fornecedor) => {
 
 
 //CRUD Read >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-ipcMain.on('dialog-infoSearchDialog', (event) => {
+ipcMain.on('dialog-infoSearchFornecedorDialog', (event) => {
     dialog.showMessageBox({
         type: 'warning',
         title: 'Atenção!',
@@ -491,8 +547,68 @@ ipcMain.on('search-forne', async (event, razaoFornecedor) => {
 
 
 //CRUD Update >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+ipcMain.on('update-cliente', async (event, fornecedor) => {
+    console.log(fornecedor) //Teste do passo 2 - slide
+    // Passo 3 (slide): cadastrar o cliente no MongoDB
+    try {
+        //extrair os dados do objeto
+        const fornecedorEditado = await fornecedorModel.findByIdAndUpdate(
+            fornecedor.idForne, {
+                razaoFornecedor: fornecedor.razaoForne,
+                cnpjFornecedor: fornecedor.cnpjForne,
+                foneFornecedor: fornecedor.foneForne,
+                emailFornecedor: fornecedor.emailForne,
+                cepFornecedor: fornecedor.cepForne,
+                ruaFornecedor: fornecedor.ruaForne,
+                enderecoFornecedor: fornecedor.enderecoForne,
+                complementoFornecedor: fornecedor.complementoForne,
+                bairroFornecedor: fornecedor.bairroForne,
+                cidadeFornecedor: fornecedor.cidadeForne,
+                estadoFornecedor: fornecedor.estadoForne
+        },
+            {
+                new: true
+            }
+        )
+        dialog.showMessageBox({
+            type: 'info',
+            title: 'Aviso',
+            message: 'Dados do cliente alterado com sucesso',
+            buttons: ['Ok']
+        })
+    } catch (error) {
+        console.log(error)
+    }
+})
 //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 
 //CRUD Delete >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+ipcMain.on('delete-cliente', (event, idForne) => {
+    console.log(idForne) // teste do passo 2
+    //Importante! Confirmar a ação antes de excluir do banco
+    dialog.showMessageBox({
+        type: 'error',
+        title: 'ATENÇÃO!',
+        message: 'Tem certeza que deseja excluir este fornecedor?',
+        defaultId: 0,
+        buttons: ['Sim', 'Não']
+    }).then (async(result) => {
+        if (result.response === 0) {
+            // Passo 3 (excluir o cliente do banco)
+            try {                
+                await clienteModel.findByIdAndDelete(idForne)
+                event.reply('clear-all-forne')
+                dialog.showMessageBox({
+                    type: 'info',
+                    title: 'Aviso',
+                    message: 'Dados do fornecedor apagado com sucesso',
+                    buttons: ['Ok']
+                })
+            } catch (error) {
+                console.log(error)
+            }
+        }
+    })
+})
 //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<

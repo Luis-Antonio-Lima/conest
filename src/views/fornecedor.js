@@ -34,11 +34,12 @@ function adicionarTeclaEnter() {
 
 //CRUD Create >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 //captura dos inputs do formulário (passo 1 - slide)
+let idFornecedor = document.getElementById('inputIdFornecedor')
 let formFornecedor = document.getElementById('frmFornecedor')
 let razaoFornecedor = document.getElementById('inputRazaoSocial')
 let cnpjFornecedor = document.getElementById('inputCNPJ')
-let foneFornecedor = document.getElementById('inputPhone')
-let emailFornecedor = document.getElementById('inputAddress')
+let foneFornecedor = document.getElementById('inputPhoneFornecedor')
+let emailFornecedor = document.getElementById('inputAddressFornecedor')
 let cepFornecedor = document.getElementById('inputEndereco')
 let ruaFornecedor = document.getElementById('resLogradouro')
 let enderecoFornecedor = document.getElementById('inputNumeroEndereco')
@@ -83,7 +84,7 @@ function buscarFornecedor() {
     //validação (UX)
     if (razaoFornecedor === "") {
         //validar campo obrigatório
-        api.infoSearchDialog()
+        api.infoSearchFornecedorDialog()
     } else {
         //enviar o pedido de busca junto com a razao do fornecedor
         api.searchForne(razaoFornecedor)
@@ -119,10 +120,18 @@ function buscarFornecedor() {
     
     //Passo 5 (final) percorre o array, extrair os dados e setar os campos de texto (caixas input) do formulário
         arrayFornecedor.forEach((f) => {
-            document.getElementById('inputId').value = f._id,
+            document.getElementById('inputIdFornecedor').value = f._id,
             document.getElementById('inputRazaoSocial').value = f.razaoFornecedor,
-            document.getElementById('inputPhone').value = f.foneFornecedor,
-            document.getElementById('inputAddress').value = f.emailFornecedor
+            document.getElementById('inputPhoneFornecedor').value = f.foneFornecedor,
+            document.getElementById('inputAddressFornecedor').value = f.emailFornecedor,
+            document.getElementById('inputCNPJ').value = f.cnpjFornecedor,
+            document.getElementById('inputEndereco').value = f.cepFornecedor,
+            document.getElementById('resLogradouro').value = f.ruaFornecedor,
+            document.getElementById('inputNumeroEndereco').value = f.enderecoFornecedor,
+            document.getElementById('inputComplementoEndereco').value = f.complementoFornecedor,
+            document.getElementById('resBairro').value = f.bairroFornecedor,
+            document.getElementById('resLocalidade').value = f.cidadeFornecedor,
+            document.getElementById('resUF').value = f.estadoFornecedor
             // limpar a caixa de busca (UX)
             document.getElementById('inputSearch').value = ""
             // ativar os botões update e delete
@@ -135,10 +144,47 @@ function buscarFornecedor() {
 
 
 //CRUD Update>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
+function editarFornecedor() {
+    const fornecedor = {
+        idForne: idFornecedor.value,
+        razaoForne: razaoFornecedor.value,
+        cnpjForne: cnpjFornecedor.value,
+        foneForne: foneFornecedor.value,
+        emailForne: emailFornecedor.value,
+        cepForne: cepFornecedor.value,
+        ruaForne: ruaFornecedor.value,
+        enderecoForne: enderecoFornecedor.value,
+        complementoForne: complementoFornecedor.value,
+        bairroForne: bairroFornecedor.value,
+        cidadeForne: cidadeFornecedor.value,
+        estadoForne: estadoFornecedor.value
+    }
+    console.log(fornecedor) //teste do passo 1
+    //Passo 2: Enviar os dados para o main.js
+    api.updateClient(fornecedor)
+}
 //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 
 //CRUD Delete >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
+
+api.clearFornecedor((clearCliente) => {
+    console.log("campo limpo")
+    formCliente.reset()
+    document.getElementById('inputSearch').focus()
+})
 //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+//Reset
+
+function resetForm () {
+    document.getElementById('inputSearch').disabled = false
+    document.getElementById('inputSearch').focus()
+    btnCreate.disabled = true
+    btnUpdate.disabled = true
+    btnDelete.disabled = true
+    btnRead.disabled = false
+    //btnReset.disabled = true
+    document.getElementById('frmFornecedor').addEventListener('keydown', teclaEnter)
+}

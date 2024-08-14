@@ -38,30 +38,37 @@ document.getElementById('inputSearch').addEventListener('focus', () => {
     adicionarTeclaEnter()
     console.log("tecla enter habilitada")
     btnCreate.disabled = true
+    btnUpdate.disabled = true
+    btnDelete.disabled = true
 })
 
 // quando selecionado essas caixas de texto, automaticamente o enter é removido do (Buscar), e desabilitado o botão (Adicionar) - (UX)
-document.getElementById('inputId').addEventListener('focus', () => {
+document.getElementById('inputIdCliente').addEventListener('focus', () => {
     removerTeclaEnter()
     console.log("tecla enter desabilitada")
     btnCreate.disabled = true
+    btnUpdate.disabled = true
+    btnDelete.disabled = true
 })
 
 // quando selecionado essas caixas de texto, automaticamente o enter é removido do botão (Buscar), e habilitado o botão (Adicionar) - (UX)
-document.querySelectorAll('#inputName, #inputPhone, #inputAddress').forEach(input => {
+document.querySelectorAll('#inputNameCliente, #inputPhoneCliente, #inputAddressCliente').forEach(input => {
     input.addEventListener('focus', () => {
         removerTeclaEnter();
         console.log("tecla enter desabilitada");
-        btnCreate.disabled = false;
+        btnCreate.disabled = false
+        btnUpdate.disabled = false
+        btnDelete.disabled = false
     })
 })
 
 //CRUD Create >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 //captura dos inputs do formulário (passo 1 - slide)
+let idCliente = document.getElementById('inputIdCliente')
 let formCliente = document.getElementById('frmCliente')
-let nomeCliente = document.getElementById('inputName')
-let foneCliente = document.getElementById('inputPhone')
-let emailCliente = document.getElementById('inputAddress')
+let nomeCliente = document.getElementById('inputNameCliente')
+let foneCliente = document.getElementById('inputPhoneCliente')
+let emailCliente = document.getElementById('inputAddressCliente')
 //evento relacionado ao botão adicionar (ainda passo 1 - slide)
 formCliente.addEventListener('submit', async(event) => {
     event.preventDefault()
@@ -88,7 +95,7 @@ function buscarCliente() {
     //validação (UX)
     if (nomeCliente === "") {
         //validar campo obrigatório
-        api.infoSearchDialog()
+        api.infoSearchClienteDialog()
     } else {
         //enviar o pedido de busca junto com o nome do cliente
         api.searchClient(nomeCliente)
@@ -104,11 +111,11 @@ function buscarCliente() {
         //Restaurar o comportamento padrão da tecla Enter
         removerTeclaEnter()
         let setarNomeCliente = document.getElementById('inputSearch').value.trim().replace(/\s+/g, ' ')
-        document.getElementById('inputName').value += setarNomeCliente
+        document.getElementById('inputNameCliente').value += setarNomeCliente
         document.getElementById('inputSearch').value = ""
         document.getElementById('inputSearch').disabled = true
         document.getElementById('inputSearch').blur()
-        document.getElementById('inputName').focus()
+        document.getElementById('inputNameCliente').focus()
         btnRead.disabled = true
         btnCreate.disabled = false
     })
@@ -124,10 +131,10 @@ function buscarCliente() {
     
     //Passo 5 (final) percorre o array, extrair os dados e setar os campos de texto (caixas input) do formulário
         arrayCliente.forEach((c) => {
-            document.getElementById('inputId').value = c._id,
-            document.getElementById('inputName').value = c.nomeCliente,
-            document.getElementById('inputPhone').value = c.foneCliente,
-            document.getElementById('inputAddress').value = c.emailCliente
+            document.getElementById('inputIdCliente').value = c._id,
+            document.getElementById('inputNameCliente').value = c.nomeCliente,
+            document.getElementById('inputPhoneCliente').value = c.foneCliente,
+            document.getElementById('inputAddressCliente').value = c.emailCliente
             // limpar a caixa de busca (UX)
             document.getElementById('inputSearch').value = ""
             // ativar os botões update e delete
@@ -140,12 +147,33 @@ function buscarCliente() {
 
 
 //CRUD Update>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
+function editarCliente() {
+    const cliente = {
+        idCli: idCliente.value,
+        nomeCli: nomeCliente.value,
+        foneCli: foneCliente.value,
+        emailCli: emailCliente.value
+    }
+    console.log(cliente) //teste do passo 1
+    //Passo 2: Enviar os dados para o main.js
+    api.updateClient(cliente)
+}
 //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 
 //CRUD Delete >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+function deletarCliente() {
+    let idCli = idCliente.value
+    console.log(idCli) //teste do passo 1
+    //Passo 2: Enviar o id do cliente para o main.js
+    api.deleteClient(idCli)
+}
 
+api.clearCliente((clearCliente) => {
+    console.log("campo limpo")
+    formCliente.reset()
+    document.getElementById('inputSearch').focus()
+})
 //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 

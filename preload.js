@@ -25,15 +25,20 @@ contextBridge.exposeInMainWorld('api', {
   openRelatorio: () => ipcRenderer.send('open-relatorio'),
   newCliente: (cliente) => ipcRenderer.send('new-cliente', cliente),
   newFornecedor: (fornecedor) => ipcRenderer.send('new-fornecedor', fornecedor),
-  infoSearchDialog: () => ipcRenderer.send('dialog-infoSearchDialog'),
+  infoSearchClienteDialog: () => ipcRenderer.send('dialog-infoSearchClienteDialog'),
+  infoSearchFornecedorDialog: () => ipcRenderer.send('dialog-infoSearchFornecedorDialog'),
   focusSearch: (args) => ipcRenderer.on('focus-search', args),
   searchClient: (nomeCliente) => ipcRenderer.send ('search-client', nomeCliente),
   nameClient: (args) => ipcRenderer.on('name-client', args),
+  updateClient: (cliente) => ipcRenderer.send('update-cliente', cliente),
+  deleteClient: (idCli) => ipcRenderer.send('delete-cliente', idCli),
   clearSearch: (args) => ipcRenderer.on('clear-search', args),
   dataCliente: (dadosCliente) => ipcRenderer.on('data-client', dadosCliente),
+  clearCliente: (clearCliente) => ipcRenderer.on('clear-all-cliente', clearCliente),
   nameForne: (args) => ipcRenderer.on('nome-forne', args),
   searchForne: (razaoForne) => ipcRenderer.send('search-forne', razaoForne),
-  dataForne: (dadosForne) => ipcRenderer.on('data-forne', dadosForne)
+  dataForne: (dadosForne) => ipcRenderer.on('data-forne', dadosForne),
+  clearFornecedor: (clearFornecedor) => ipcRenderer.on('clear-all-forne', clearFornecedor),
 })
 
 // Inserir data na página

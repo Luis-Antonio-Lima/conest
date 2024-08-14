@@ -30,34 +30,34 @@
 
             <!-- id MongoDB -->
             <div class="col-md-6">
-                <input type="text" class="form-control" id="inputId" placeholder="id">
+                <input type="text" class="form-control" id="inputIdCliente" placeholder="id">
                 <br>
             </div>
 
             <!-- Nome do cliente -->
             <div class="col-md-8">
-                <label for="inputName" class="form-label">Nome</label>
-                <input type="text" class="form-control" id="inputName" maxlength="30" spellcheck="false" required>
+                <label for="inputNameCliente" class="form-label">Nome</label>
+                <input type="text" class="form-control" id="inputNameCliente" maxlength="30" spellcheck="false" required>
             </div>
 
             <!-- Telefone do cliente -->
             <div class="col-md-4">
-                <label for="inputPhone" class="form-label">Telefone</label>
-                <input type="tel" class="form-control" id="inputPhone" required maxlength="15" spellcheck="false">
+                <label for="inputPhoneCliente" class="form-label">Telefone</label>
+                <input type="tel" class="form-control" id="inputPhoneCliente" required maxlength="15" spellcheck="false">
             </div>
 
             <!-- Email do cliente -->
             <div class="col-12">
-                <label for="inputAddress" class="form-label">Email</label>
-                <input type="email" class="form-control" id="inputAddress" maxlength="30" spellcheck="false">
+                <label for="inputAddressCliente" class="form-label">Email</label>
+                <input type="email" class="form-control" id="inputAddressCliente" maxlength="30" spellcheck="false">
                 <br>
             </div>
 
             <!-- Botões -->
             <div class="col-12">
                 <button type="submit" class="btn btn-success" id="btnCreate">Adicionar</button>
-                <button type="submit" class="btn btn-warning" id="btnUpdate">Editar</button>
-                <button type="button" class="btn btn-danger" id="btnDelete">Excluir</button>
+                <button type="button" class="btn btn-warning" id="btnUpdate" onclick="editarCliente()">Editar</button>
+                <button type="button" class="btn btn-danger" id="btnDelete" onclick="deletarCliente()">Excluir</button>
                 <button type="reset" class="btn" id="btnReset" onclick="resetForm()"></button>
             </div>
         </form>

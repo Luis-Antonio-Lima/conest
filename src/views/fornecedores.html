@@ -25,14 +25,14 @@
 
             <!-- Botão de pesquisa de cliente CRUD Read -->
             <div class="col-md-4">
-                <button type="button" class="btn btn-dark">Buscar</button>
+                <button type="button" class="btn btn-dark" onclick="buscarFornecedor()">Buscar</button>
             </div>
 
             <hr class="border border-primary border-1 opacity-75">
 
             <!-- id MongoDB -->
             <div class="col-md-12">
-                <input type="text" class="form-control" id="inputId" placeholder="id">
+                <input type="text" class="form-control" id="inputIdFornecedor" placeholder="id">
                 <br>
             </div>
 
@@ -51,13 +51,13 @@
             <!-- Telefone do fornecedor -->
             <div class="col-md-4">
                 <label for="inputPhone" class="form-label">Telefone</label>
-                <input type="tel" class="form-control" id="inputPhone" required maxlength="15" name="resDDD" spellcheck="false">
+                <input type="tel" class="form-control" id="inputPhoneFornecedor" required maxlength="15" name="resDDD" spellcheck="false">
             </div>
 
             <!-- Email do fornecedor -->
             <div class="col-8">
                 <label for="inputAddress" class="form-label">Email</label>
-                <input type="email" class="form-control" id="inputAddress" maxlength="30" spellcheck="false" required>
+                <input type="email" class="form-control" id="inputAddressFornecedor" maxlength="30" spellcheck="false" required>
                 <br>
             </div>
             
@@ -107,9 +107,9 @@
             <!-- Botões -->
             <div class="col-12">
                 <button type="submit" class="btn btn-success" id="btnCreate">Adicionar</button>
-                <button type="button" class="btn btn-warning" id="btnUpdate">Editar</button>
+                <button type="button" class="btn btn-warning" id="btnUpdate" onclick="editarFornecedor()">Editar</button>
                 <button type="button" class="btn btn-danger" id="btnDelete">Excluir</button>
-                <button type="reset" class="btn" id="btnReset"></button>
+                <button type="reset" class="btn" id="btnReset" onclick="resetForm()"></button>
             </div>
         </form>
     </div>
