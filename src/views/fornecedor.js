@@ -32,6 +32,35 @@ function adicionarTeclaEnter() {
     document.getElementById('frmFornecedor').addEventListener('keydown', teclaEnter)
 }
 
+// quando selecionado essa caixas de texto, automaticamente o enter é adicionado do botão (Buscar), e desabilitado o botão (Adicionar) - (UX)
+document.getElementById('inputSearch').addEventListener('focus', () => {
+    adicionarTeclaEnter()
+    console.log("tecla enter habilitada")
+    btnCreate.disabled = true
+    btnUpdate.disabled = true
+    btnDelete.disabled = true
+})
+
+// quando selecionado essas caixas de texto, automaticamente o enter é removido do (Buscar), e desabilitado o botão (Adicionar) - (UX)
+document.getElementById('inputIdFornecedor').addEventListener('focus', () => {
+    removerTeclaEnter()
+    console.log("tecla enter desabilitada")
+    btnCreate.disabled = true
+    btnUpdate.disabled = true
+    btnDelete.disabled = true
+})
+
+// quando selecionado essas caixas de texto, automaticamente o enter é removido do botão (Buscar), e habilitado o botão (Adicionar) - (UX)
+document.querySelectorAll('#inputRazaoSocial, #inputCNPJ, #inputPhoneFornecedor, #inputAddressFornecedor, #inputEndereco, #inputNumeroEndereco, #inputComplementoEndereco').forEach(input => {
+    input.addEventListener('focus', () => {
+        removerTeclaEnter();
+        console.log("tecla enter desabilitada");
+        btnCreate.disabled = false
+        btnUpdate.disabled = false
+        btnDelete.disabled = false
+    })
+})
+
 //CRUD Create >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 //captura dos inputs do formulário (passo 1 - slide)
 let idFornecedor = document.getElementById('inputIdFornecedor')
@@ -161,17 +190,22 @@ function editarFornecedor() {
     }
     console.log(fornecedor) //teste do passo 1
     //Passo 2: Enviar os dados para o main.js
-    api.updateClient(fornecedor)
+    api.updateForne(fornecedor)
 }
 //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 
 //CRUD Delete >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+function deletarFornecedor() {
+    let idForne = idFornecedor.value
+    console.log(idForne) //teste do passo 1
+    //Passo 2: Enviar o id do cliente para o main.js
+    api.deleteForne(idForne)
+}
 
-
-api.clearFornecedor((clearCliente) => {
+api.clearFornecedor((clearFornecedor) => {
     console.log("campo limpo")
-    formCliente.reset()
+    formFornecedor.reset()
     document.getElementById('inputSearch').focus()
 })
 //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<

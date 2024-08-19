@@ -547,7 +547,7 @@ ipcMain.on('search-forne', async (event, razaoFornecedor) => {
 
 
 //CRUD Update >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-ipcMain.on('update-cliente', async (event, fornecedor) => {
+ipcMain.on('update-fornecedor', async (event, fornecedor) => {
     console.log(fornecedor) //Teste do passo 2 - slide
     // Passo 3 (slide): cadastrar o cliente no MongoDB
     try {
@@ -584,7 +584,7 @@ ipcMain.on('update-cliente', async (event, fornecedor) => {
 
 
 //CRUD Delete >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-ipcMain.on('delete-cliente', (event, idForne) => {
+ipcMain.on('delete-fornecedor', (event, idForne) => {
     console.log(idForne) // teste do passo 2
     //Importante! Confirmar a ação antes de excluir do banco
     dialog.showMessageBox({
@@ -597,7 +597,7 @@ ipcMain.on('delete-cliente', (event, idForne) => {
         if (result.response === 0) {
             // Passo 3 (excluir o cliente do banco)
             try {                
-                await clienteModel.findByIdAndDelete(idForne)
+                await fornecedorModel.findByIdAndDelete(idForne)
                 event.reply('clear-all-forne')
                 dialog.showMessageBox({
                     type: 'info',
