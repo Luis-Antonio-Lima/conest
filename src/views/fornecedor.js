@@ -190,7 +190,20 @@ function editarFornecedor() {
     }
     console.log(fornecedor) //teste do passo 1
     //Passo 2: Enviar os dados para o main.js
-    api.updateForne(fornecedor)
+    if (razaoFornecedor.value == "") {
+        api.alert()
+        api.focusRazao((foco) => {
+            document.getElementById('inputRazaoSocial').focus()
+        })
+    } else {
+        api.updateForne(fornecedor)
+
+        api.clearFornecedor((clearFornecedor) => {
+            console.log("campo limpo")
+            formFornecedor.reset()
+            document.getElementById('inputSearch').focus()
+        })
+    }  
 }
 //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 

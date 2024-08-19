@@ -580,6 +580,16 @@ ipcMain.on('update-fornecedor', async (event, fornecedor) => {
         console.log(error)
     }
 })
+
+ipcMain.on('alert-dados', async (event) => {
+    dialog.showMessageBox({
+        type: 'warning',
+        title: 'Aviso',
+        message: 'Preencha todos os campos obrigatórios!',
+        buttons: ['Ok'],
+    })
+    event.reply('focus-razao')
+})
 //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 

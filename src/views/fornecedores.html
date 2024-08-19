@@ -38,38 +38,38 @@
 
             <!-- Razão Social do fornecedor -->
             <div class="col-md-8">
-                <label for="inputRazaoSocial" class="form-label">Razão Social</label>
+                <label for="inputRazaoSocial" class="form-label">Razão Social *</label>
                 <input type="text" class="form-control" id="inputRazaoSocial" required>
             </div>
 
             <!-- CNPJ do fornecedor -->
             <div class="col-md-4">
-                <label for="inputCNPJ" class="form-label">CNPJ do Fornecedor</label>
+                <label for="inputCNPJ" class="form-label">CNPJ do Fornecedor *</label>
                 <input type="number" class="form-control" id="inputCNPJ" required>
             </div>
 
-            <!-- Telefone do fornecedor -->
-            <div class="col-md-4">
-                <label for="inputPhone" class="form-label">Telefone</label>
-                <input type="tel" class="form-control" id="inputPhoneFornecedor" required maxlength="15" name="resDDD" spellcheck="false">
-            </div>
-
-            <!-- Email do fornecedor -->
-            <div class="col-8">
-                <label for="inputAddress" class="form-label">Email</label>
-                <input type="email" class="form-control" id="inputAddressFornecedor" maxlength="30" spellcheck="false" required>
-                <br>
-            </div>
-            
             <!-- Endereço do fornecedor -->
             <div class="col-md-2">
-                <label for="inputEndereco" class="form-label">CEP</label>
+                <label for="inputEndereco" class="form-label">CEP *</label>
                 <input type="text" class="form-control" id="inputEndereco" name="txtCEP" required maxlength="9">
             </div>
 
             <!-- Botao -->
-            <div class="col-md-10">
+            <div class="col-md-1">
                 <button  onclick="buscarcep()" type="button" class="btn btn-dark" id="btnBuscar" name="btnBuscar">Buscar</button>
+            </div>
+
+            <!-- Telefone do fornecedor -->
+            <div class="col-md-3">
+                <label for="inputPhone" class="form-label">Telefone *</label>
+                <input type="tel" class="form-control" id="inputPhoneFornecedor" required maxlength="15" name="resDDD" spellcheck="false">
+            </div>
+
+            <!-- Email do fornecedor -->
+            <div class="col-6">
+                <label for="inputAddress" class="form-label">Email *</label>
+                <input type="email" class="form-control" id="inputAddressFornecedor" maxlength="30" spellcheck="false" required>
+                <br>
             </div>
 
             <div class="col-md-5">
@@ -78,13 +78,13 @@
             </div>
 
             <div class="col-md-2">
-                <label for="inputNumeroEndereco" class="form-label">Número do Endereço</label>
+                <label for="inputNumeroEndereco" class="form-label">Número do Endereço *</label>
                 <input type="text" class="form-control" id="inputNumeroEndereco" required>
             </div>
 
             <div class="col-md-3">
                 <label for="inputComplementoEndereco" class="form-label">Complemento</label>
-                <input type="text" class="form-control" id="inputComplementoEndereco" required>
+                <input type="text" class="form-control" id="inputComplementoEndereco">
             </div>
 
             <div class="col-md-5">

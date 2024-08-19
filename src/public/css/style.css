@@ -106,7 +106,8 @@ footer p {
 }
 
 #btnBuscar {
-    margin-top: 33px;
+    margin-top: 32px;
+    width: 76px;
 }
 
 #btnCreate {

@@ -40,7 +40,9 @@ contextBridge.exposeInMainWorld('api', {
   dataForne: (dadosForne) => ipcRenderer.on('data-forne', dadosForne),
   clearFornecedor: (clearFornecedor) => ipcRenderer.on('clear-all-forne', clearFornecedor),
   updateForne: (fornecedor) => ipcRenderer.send('update-fornecedor', fornecedor),
-  deleteForne: (idForne) => ipcRenderer.send('delete-fornecedor', idForne)
+  deleteForne: (idForne) => ipcRenderer.send('delete-fornecedor', idForne),
+  alert: () => ipcRenderer.send('alert-dados'),
+  focusRazao: (foco) => ipcRenderer.on('focus-razao', foco)
 })
 
 // Inserir data na página
