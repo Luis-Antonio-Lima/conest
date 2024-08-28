@@ -5,9 +5,13 @@ const path = require('node:path')
 //importar o modulo de conexão
 const {dbStatus, desconectar} = require('./database.js')
 
+//importar fs para trabalhar com os arquivos de imagens
+const fs = require('fs')
+
 //importar do Schema (model) das coleções("tabelas")
 const clienteModel = require('./src/models/Cliente.js')
 const fornecedorModel = require('./src/models/Fornecedor.js')
+const produtoModel = require('./src/models/Produto.js')
 const { default: mongoose } = require('mongoose')
 
 let dbCon = null
@@ -620,5 +624,71 @@ ipcMain.on('delete-fornecedor', (event, idForne) => {
             }
         }
     })
+})
+//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+
+// Produtos
+//CRUD Create >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+ipcMain.on('new-product', async (event, produto) => {
+    console.log(produto)
+    try {
+
+        const uploadsDir = path.join(__dirname, 'uploads')
+        if (!fs.existsSync(uploadsDir)) {
+            fs.mkdirSync(uploadsDir)
+        }
+
+        const fileName = `${Date.now()}_${path.basename(produto.imagemProduto)}`
+        const destination = path.join(uploadsDir, fileName);
+
+        fs.copyFileSync(produto.imagemProduto, destination);
+
+        const novoProduto = new produtoModel({
+            barcode: produto.barcode,
+            nomeProduto: produto.nomeProduto,
+            imagemProduto: destination
+        })
+
+        // const novoProduto = new produtoModel(produto)
+        await novoProduto.save()
+        dialog.showMessageBox({
+            type: 'info',
+            title: 'CONEST',
+            message: 'Produto cadastrado com sucesso',
+            buttons: ['OK']
+        })
+    } catch (error) {
+        console.log(error)
+    }
+})
+
+//CRUD Read
+// Receber barcode
+ipcMain.on('search-barcode', async (event, barcode) => {
+    console.log(barcode)
+
+    try {
+        const dadosProduto = await produtoModel.find({ barcode: barcode })
+        if (dadosProduto.length === 0) {
+            dialog.showMessageBox({
+                type: 'question',
+                title: 'CONEST',
+                message: 'Produto não cadastrado.\nDeseja cadastrar este produto?',
+                buttons: ['Sim', 'Não']
+            }).then((result) => {
+                if (result.response === 0) {
+                    event.reply('set-barcode')
+                } else {
+                    event.reply('clear-search')
+                }
+            })
+        } else {
+            event.reply('product-data', JSON.stringify(dadosProduto))
+        }
+    } catch (error) {
+        console.log(error)
+    }
+
 })
 //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<

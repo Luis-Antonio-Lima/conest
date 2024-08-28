@@ -42,7 +42,12 @@ contextBridge.exposeInMainWorld('api', {
   updateForne: (fornecedor) => ipcRenderer.send('update-fornecedor', fornecedor),
   deleteForne: (idForne) => ipcRenderer.send('delete-fornecedor', idForne),
   alert: () => ipcRenderer.send('alert-dados'),
-  focusRazao: (foco) => ipcRenderer.on('focus-razao', foco)
+  focusRazao: (foco) => ipcRenderer.on('focus-razao', foco),
+  
+  newProduto: (produto) => ipcRenderer.send('new-product', produto),
+  barcodeSearch: (barcode) => ipcRenderer.send('search-barcode', barcode),
+  barcodeSet: (setCodeBar) => ipcRenderer.on('set-barcode', setCodeBar),
+  dadosDoProduto: (dadosProduto) => ipcRenderer.on('product-data', dadosProduto)
 })
 
 // Inserir data na página
