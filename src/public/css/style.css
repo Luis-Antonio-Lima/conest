@@ -125,3 +125,8 @@ footer p {
 #btnReset {
     margin-top: -19px;
 }
+
+#imageProduct {
+    width: 300px;
+    height: 300px;
+}

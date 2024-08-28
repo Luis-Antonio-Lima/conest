@@ -18,7 +18,7 @@ barcodeInput = document.querySelector("#barcodeProduct")
 nomeProdutoInput = document.querySelector("#nameProduct")
 imagemProdutoInput = document.querySelector("#uploadProduct")
 //renderizar imagem
-imagemProdutoPreview = document.querySelector("#imagemProduto")
+imagemProdutoPreview = document.querySelector("#imageProduct")
 
 // Estrutura de dados - Produto
 let arrayProduto = []
@@ -80,7 +80,7 @@ api.dadosDoProduto((event, dadosProduto) => {
         document.getElementById("idProduct").value = t._id
         document.getElementById("barcodeProduct").value = t.barcode
         document.getElementById("nameProduct").value = t.nomeProduto
-        imagemProdutoPreview.src = t.imagemProduto       
+        imagemProdutoPreview.src = t.imagemProduto
         //limpar caixa de busca
         document.getElementById("inputProduct").value = ""
         //remover o foco da caixa de busca
